@@ -36,10 +36,10 @@ module Signal_Generator(
 wire       wav, amp, f_inc, f_dec, p_inc, p_dec;
 //波形控制 波形 幅值 频率+ 频率- 相位+ 相位-
 
-Key key_wav(CLK_50M, RST_N, KEY_1, wav);
-Key key_amp(CLK_50M, RST_N, KEY_2, amp);
-Encoder enc_freq(CLK_50M, RST_N, ENC_1_A, ENC_1_B, f_inc, f_dec);
-Encoder enc_phas(CLK_50M, RST_N, ENC_2_A, ENC_2_B, p_inc, p_dec);
+Key key_wav(CLK_50M, RST_N, KEY_1, wav); // 按键1消抖后控制波形
+Key key_amp(CLK_50M, RST_N, KEY_2, amp); // 按键2消抖后控制幅值
+Encoder enc_freq(CLK_50M, RST_N, ENC_1_A, ENC_1_B, f_inc, f_dec); // 编码器1控制频率
+Encoder enc_phas(CLK_50M, RST_N, ENC_2_A, ENC_2_B, p_inc, p_dec); // 编码器2控制相位
 
 reg [15: 0] phase;
 always @(posedge p_inc or posedge p_dec or negedge RST_N) begin
@@ -54,9 +54,9 @@ always @(posedge f_inc or posedge f_dec or negedge RST_N) begin
     else if (f_dec) frequency <= frequency - 1;
 end
 
+reg [11:0] dds_data;  // DDS输出数据
+reg        dds_valid; // DDS输出有效标志
+DAC7512 dac_driver(CLK_50M, RST_N, dds_data, dds_valid, DAC_SYNC, DAC_SCLK, DAC_DIN);
 
-
-DAC7512 dac_driver();
-    
 
 endmodule

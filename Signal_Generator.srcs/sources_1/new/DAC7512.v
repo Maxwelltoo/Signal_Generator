@@ -21,10 +21,10 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-module DAC7512(clk, rst, ena, dat, sync, sclk, sdat);
+module DAC7512(clk, rst, val, dat, sync, sclk, sdat);
     input        clk;  // 系统时钟 50Mhz
     input        rst;  // 复位信号 低电平有效
-    input        ena;  // 数据有效/使能
+    input        val;  // 数据有效/使能
     input [11:0] dat;  // 12bit数据
     output reg   sync; // 同步控制信号
     output reg   sclk; // DAC 时钟 25MHz
@@ -60,17 +60,17 @@ always @(posedge clk or negedge!rst) begin
 end
 wire END_DATA = (CNT_DATA == 5'd31); // sclk下降沿时计数奇数
 
-always @(ena or STATE or END_PRE or END_DATA) begin
+always @(val or STATE or END_PRE or END_DATA) begin
     NEXT = STATE;
     casez(STATE)
-        IDLE: if(ena)      NEXT = PRE ;
+        IDLE: if(val)      NEXT = PRE ;
         PRE : if(END_PRE)  NEXT = DATA;
         DATA: if(END_DATA) NEXT = IDLE;
         default:           NEXT = IDLE;
     endcase
 end
 
-always @(ena or STATE or END_PRE or END_DATA) begin
+always @(val or STATE or END_PRE or END_DATA) begin
     casez(STATE)
     IDLE:    sync = 0;
     PRE:     sync = 1;
@@ -82,7 +82,7 @@ end
 reg [15:0] DATA_CP;
 always @(posedge clk or negedge rst) begin
     if(!rst)                      DATA_CP <= 16'b0;
-    else if(ena)                  DATA_CP <= {4'b0, dat}; // 普通模式传输
+    else if(val)                  DATA_CP <= {4'b0, dat}; // 普通模式传输
     else if(STATE==DATA & ~sclk)  DATA_CP <= {DATA_CP[14:0], DATA_CP[15]};
     else                          DATA_CP <= DATA_CP;
 end
