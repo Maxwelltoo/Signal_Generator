@@ -30,7 +30,7 @@ module Encoder(clk, rst, enc_a, enc_b, rot_ab, rot_ba);
     output rot_ba; // BA旋转脉冲
 
     reg [1:0] buf_a;          // A相状态  1:前一时刻  0：当前
-    reg [1:0] buf_b;          // B相状态  1:前一时刻  0：当前
+    //reg [1:0] buf_b;          // B相状态  1:前一时刻  0：当前
     wire rising,falling;      // A相边沿  上升，下降
     localparam C=20'd999_999; // 50Mhz/999999+1=50hz
     reg [19:0] cnt;           // 1/50hz=20ms

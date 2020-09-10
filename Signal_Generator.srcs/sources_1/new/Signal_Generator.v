@@ -33,22 +33,25 @@ module Signal_Generator(
     output DAC_SCLK,
     output DAC_DIN);
 
-wire wave_l,wave_r,f_increa,f_reduce,p_increa,p_reduce;
-Key key_wave_l(CLK_50M, RST_N, KEY_1, wave_l);
-Key key_wave_r(CLK_50M, RST_N, KEY_2, wave_r);
-Encoder enc_freq(CLK_50M, RST_N, ENC_1_A, ENC_1_B, f_increa, f_reduce);
-Encoder enc_phas(CLK_50M, RST_N, ENC_2_A, ENC_2_B, p_increa, p_reduce);
+wire       wav, amp, f_inc, f_dec, p_inc, p_dec;
+//波形控制 波形 幅值 频率+ 频率- 相位+ 相位-
 
-reg [15: 0] frequency;
+Key key_wav(CLK_50M, RST_N, KEY_1, wav);
+Key key_amp(CLK_50M, RST_N, KEY_2, amp);
+Encoder enc_freq(CLK_50M, RST_N, ENC_1_A, ENC_1_B, f_inc, f_dec);
+Encoder enc_phas(CLK_50M, RST_N, ENC_2_A, ENC_2_B, p_inc, p_dec);
+
 reg [15: 0] phase;
-always @(posedge CLK_50M or negedge RST_N) begin
-    if (!RST_N) begin
-        frequency = 16'h0083;
-        phase     = 16'h0000; 
-    end
-    else
-
-    ;
+always @(posedge p_inc or posedge p_dec or negedge RST_N) begin
+    if (!RST_N)     phase <= 16'h0083;
+    else if (p_inc) phase <= phase + 1;
+    else if (p_dec) phase <= phase - 1;
+end
+reg [15: 0] frequency;
+always @(posedge f_inc or posedge f_dec or negedge RST_N) begin
+    if (!RST_N)     frequency <= 16'h0083;
+    else if (f_inc) frequency <= frequency + 1;
+    else if (f_dec) frequency <= frequency - 1;
 end
 
 
