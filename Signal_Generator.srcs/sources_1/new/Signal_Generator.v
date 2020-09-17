@@ -42,28 +42,39 @@ Encoder enc_freq(CLK_50M, RST_N, ENC_1_A, ENC_1_B, f_inc, f_dec); // 编码器1�
 Encoder enc_phas(CLK_50M, RST_N, ENC_2_A, ENC_2_B, p_inc, p_dec); // 编码器2控制相位
 
 // DDS_control 
-reg [1 : 0] wave;
-always @(posedge wav_c or negedge RST_N) begin
+reg [1 : 0] wave; // 方波 三角波 锯齿波 正弦波
+always @(posedge wav_c or negedge RST_N) begin //改变波形
     if (!RST_N)     wave <= 16'h0083;
     else if (wav_c) wave <= wave + 1;
 end
-reg [1 : 0]  amplitude;
-always @(posedge wav_c or negedge RST_N) begin
-    if (!RST_N)     amplitude <= 16'h0083;
-    else if (wav_c) amplitude <= amplitude + 1;
+reg [1 : 0]  ampl; // 25% 50% 75% 100% 幅值
+always @(posedge amp_c or negedge RST_N) begin //改变幅值
+    if (!RST_N)     ampl <= 16'h0083;
+    else if (amp_c) ampl <= ampl + 1;
 end
-reg [15: 0] phase;
-always @(posedge p_inc or posedge p_dec or negedge RST_N) begin
+reg [15: 0] phase; // 相位偏移值：控制初相位
+always @(posedge p_inc or posedge p_dec or negedge RST_N) begin //改变相位
     if (!RST_N)     phase <= 16'h0083;
     else if (p_inc) phase <= phase + 1;
     else if (p_dec) phase <= phase - 1;
 end
-reg [15: 0] frequency;
-always @(posedge f_inc or posedge f_dec or negedge RST_N) begin
-    if (!RST_N)     frequency <= 16'h0083;
-    else if (f_inc) frequency <= frequency + 1;
-    else if (f_dec) frequency <= frequency - 1;
+reg [15: 0] frqcy; // 相位累加量：控制频率
+always @(posedge f_inc or posedge f_dec or negedge RST_N) begin //改变频率
+    if (!RST_N)     frqcy <= 16'h0083; // 约100Khz
+    else if (f_inc) frqcy <= frqcy + 1;
+    else if (f_dec) frqcy <= frqcy - 1;
 end
+
+reg [15:0] cnt;
+always @(posedge CLK_50M) cnt <= cnt + frqcy;
+
+dds_compiler_0 sin_cos (
+  .aclk(aclk),                                // input wire aclk
+  .s_axis_phase_tvalid(s_axis_phase_tvalid),  // input wire s_axis_phase_tvalid
+  .s_axis_phase_tdata(s_axis_phase_tdata),    // input wire [31 : 0] s_axis_phase_tdata
+  .m_axis_data_tvalid(m_axis_data_tvalid),    // output wire m_axis_data_tvalid
+  .m_axis_data_tdata(m_axis_data_tdata)      // output wire [31 : 0] m_axis_data_tdata
+);
 
 reg [11:0] dds_data;  // DDS输出数据
 reg        dds_valid; // DDS输出有效标志
