@@ -65,10 +65,9 @@ always @(posedge f_inc or posedge f_dec or negedge RST_N) begin //改变频率
     else if (f_dec) frqcy <= frqcy - 1;
 end
 
-reg [15:0] cnt;
+reg [15:0] cnt; //accumulator
 always @(posedge CLK_50M) cnt <= cnt + frqcy;
-
-dds_compiler_0 sin_cos (
+dds_compiler_0 sin_wave (
   .aclk(aclk),                                // input wire aclk
   .s_axis_phase_tvalid(s_axis_phase_tvalid),  // input wire s_axis_phase_tvalid
   .s_axis_phase_tdata(s_axis_phase_tdata),    // input wire [31 : 0] s_axis_phase_tdata
@@ -76,8 +75,22 @@ dds_compiler_0 sin_cos (
   .m_axis_data_tdata(m_axis_data_tdata)      // output wire [31 : 0] m_axis_data_tdata
 );
 
+assign tria = cnt[15:4];
+assign rect = cnt[15] ? 12'h000:12'hhh;
+assign swat = cnt[15] ? cnt[14:3]:~cnt[14:3];
+assign sin =;
+always @(posedge CLK_50M ) begin
+    casez (wave)
+        2'b00: dds_data <= tria;
+        2'b01: dds_data <= rect;
+        2'b10: dds_data <= swat;
+        2'b11: dds_data <= sin; 
+        default: 
+    endcase
+end
 reg [11:0] dds_data;  // DDS输出数据
 reg        dds_valid; // DDS输出有效标志
+
 DAC7512 dac_driver(CLK_50M, RST_N, dds_data, dds_valid, DAC_SYNC, DAC_SCLK, DAC_DIN);
 
 endmodule
