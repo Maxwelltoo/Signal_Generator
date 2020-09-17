@@ -10,8 +10,10 @@
 // Target Devices: xc7z020clg484-1
 // Tool Versions: Vivado 2019.2
 // Description: 基于DDS的信号发生器
-// 
+// 参数说明：   频率控制字frqcy：16bit    相位控制字phase：16bit
+//              波形控制字wave ：2 bit    幅值控制字ampl ：2 bit
 // DDS模块设置：16bit相位累加器，762.9hz频率分辨率
+// DAC7512说明：12bit输出，SPI串行控制
 // Dependencies: 
 // 
 // Revision:
@@ -75,10 +77,11 @@ dds_compiler_0 sin_wave (
   .m_axis_data_tdata(m_axis_data_tdata)      // output wire [31 : 0] m_axis_data_tdata
 );
 
-assign tria = cnt[15:4];
-assign rect = cnt[15] ? 12'h000:12'hhh;
-assign swat = cnt[15] ? cnt[14:3]:~cnt[14:3];
-assign sin =;
+wire [15:0] cnt_p = cnt + phase; 
+assign sin  = dds_sin;
+assign tria = cnt_p[15:4]+ phase;
+assign rect = cnt_p[15] ? 12'h000:12'hhh;
+assign swat = cnt_p[15] ? cnt_p[14:3]:~cnt_p[14:3];
 always @(posedge CLK_50M ) begin
     casez (wave)
         2'b00: dds_data <= tria;
