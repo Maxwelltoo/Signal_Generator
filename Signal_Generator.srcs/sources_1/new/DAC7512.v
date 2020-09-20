@@ -53,7 +53,7 @@ end
 wire END_PRE = (CNT_PRE == 2'b11); // 保持20ns*3后END
 
 reg [4:0] CNT_DATA; // 数据传输状态计数器
-always @(posedge clk or negedge!rst) begin
+always @(posedge clk or negedge rst) begin
     if(!rst)               CNT_DATA <= 5'b0;
     else if(STATE==DATA)   CNT_DATA <= CNT_DATA+1;
     else                   CNT_DATA <= 5'b0;
