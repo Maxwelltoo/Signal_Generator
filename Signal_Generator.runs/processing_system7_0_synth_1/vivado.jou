@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2019.2 (64-bit)
+# SW Build 2708876 on Wed Nov  6 21:40:23 MST 2019
+# IP Build 2700528 on Thu Nov  7 00:09:20 MST 2019
+# Start of session at: Wed Oct  7 01:12:37 2020
+# Process ID: 10244
+# Current directory: D:/FPGA/Project/Vivado/Signal_Generator/Signal_Generator.runs/processing_system7_0_synth_1
+# Command line: vivado.exe -log processing_system7_0.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source processing_system7_0.tcl
+# Log file: D:/FPGA/Project/Vivado/Signal_Generator/Signal_Generator.runs/processing_system7_0_synth_1/processing_system7_0.vds
+# Journal file: D:/FPGA/Project/Vivado/Signal_Generator/Signal_Generator.runs/processing_system7_0_synth_1\vivado.jou
+#-----------------------------------------------------------
+source processing_system7_0.tcl -notrace
