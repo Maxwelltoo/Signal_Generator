@@ -41,6 +41,9 @@ read_verilog -library xil_defaultlib {
 read_ip -quiet D:/FPGA/Project/Vivado/Signal_Generator/Signal_Generator.srcs/sources_1/ip/dds_compiler_0/dds_compiler_0.xci
 set_property used_in_implementation false [get_files -all d:/FPGA/Project/Vivado/Signal_Generator/Signal_Generator.srcs/sources_1/ip/dds_compiler_0/dds_compiler_0_ooc.xdc]
 
+read_ip -quiet D:/FPGA/Project/Vivado/Signal_Generator/Signal_Generator.srcs/sources_1/ip/processing_system7_0/processing_system7_0.xci
+set_property used_in_implementation false [get_files -all d:/FPGA/Project/Vivado/Signal_Generator/Signal_Generator.srcs/sources_1/ip/processing_system7_0/processing_system7_0.xdc]
+
 # Mark all dcp files as not used in implementation to prevent them from being
 # stitched into the results of this synthesis run. Any black boxes in the
 # design are intentionally left as such for best results. Dcp files will be
@@ -49,6 +52,9 @@ set_property used_in_implementation false [get_files -all d:/FPGA/Project/Vivado
 foreach dcp [get_files -quiet -all -filter file_type=="Design\ Checkpoint"] {
   set_property used_in_implementation false $dcp
 }
+read_xdc D:/FPGA/Project/Vivado/Signal_Generator/Signal_Generator.srcs/constrs_1/new/pin.xdc
+set_property used_in_implementation false [get_files D:/FPGA/Project/Vivado/Signal_Generator/Signal_Generator.srcs/constrs_1/new/pin.xdc]
+
 set_param ips.enableIPCacheLiteLoad 1
 close [open __synthesis_is_running__ w]
 

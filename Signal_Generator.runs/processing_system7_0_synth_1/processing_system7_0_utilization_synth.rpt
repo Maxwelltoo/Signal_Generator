@@ -1,7 +1,7 @@
 Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 -----------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2019.2 (win64) Build 2708876 Wed Nov  6 21:40:23 MST 2019
-| Date         : Wed Oct  7 01:13:41 2020
+| Date         : Fri Oct  9 01:41:47 2020
 | Host         : DESKTOP-3TNG4C4 running 64-bit major release  (build 9200)
 | Command      : report_utilization -file processing_system7_0_utilization_synth.rpt -pb processing_system7_0_utilization_synth.pb
 | Design       : processing_system7_0

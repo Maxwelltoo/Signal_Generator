@@ -2,8 +2,8 @@
 # Vivado v2019.2 (64-bit)
 # SW Build 2708876 on Wed Nov  6 21:40:23 MST 2019
 # IP Build 2700528 on Thu Nov  7 00:09:20 MST 2019
-# Start of session at: Sun Sep 20 19:18:56 2020
-# Process ID: 17240
+# Start of session at: Fri Oct  9 01:45:18 2020
+# Process ID: 14564
 # Current directory: D:/FPGA/Project/Vivado/Signal_Generator/Signal_Generator.runs/synth_1
 # Command line: vivado.exe -log Signal_Generator.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source Signal_Generator.tcl
 # Log file: D:/FPGA/Project/Vivado/Signal_Generator/Signal_Generator.runs/synth_1/Signal_Generator.vds

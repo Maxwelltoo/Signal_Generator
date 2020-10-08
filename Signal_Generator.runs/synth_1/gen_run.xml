@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="synth_1" LaunchPart="xc7z020clg484-1" LaunchTime="1600600732">
+<GenRun Id="synth_1" LaunchPart="xc7z020clg484-1" LaunchTime="1602179115">
   <File Type="PA-TCL" Name="Signal_Generator.tcl"/>
+  <File Type="RDS-PROPCONSTRS" Name="Signal_Generator_drc_synth.rpt"/>
   <File Type="REPORTS-TCL" Name="Signal_Generator_reports.tcl"/>
   <File Type="RDS-RDS" Name="Signal_Generator.vds"/>
   <File Type="RDS-UTIL" Name="Signal_Generator_utilization_synth.rpt"/>
   <File Type="RDS-UTIL-PB" Name="Signal_Generator_utilization_synth.pb"/>
   <File Type="RDS-DCP" Name="Signal_Generator.dcp"/>
+  <File Type="VDS-TIMINGSUMMARY" Name="Signal_Generator_timing_summary_synth.rpt"/>
+  <File Type="VDS-TIMING-PB" Name="Signal_Generator_timing_summary_synth.pb"/>
   <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1">
     <Filter Type="Srcs"/>
     <File Path="$PSRCDIR/sources_1/new/Control.v">
@@ -58,7 +61,14 @@
   </FileSet>
   <FileSet Name="constrs_in" Type="Constrs" RelSrcDir="$PSRCDIR/constrs_1">
     <Filter Type="Constrs"/>
+    <File Path="$PSRCDIR/constrs_1/new/pin.xdc">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+      </FileInfo>
+    </File>
     <Config>
+      <Option Name="TargetConstrsFile" Val="$PSRCDIR/constrs_1/new/pin.xdc"/>
       <Option Name="ConstrsType" Val="XDC"/>
     </Config>
   </FileSet>
@@ -73,4 +83,5 @@
     <Step Id="synth_design"/>
   </Strategy>
   <BlockFileSet Type="BlockSrcs" Name="dds_compiler_0"/>
+  <BlockFileSet Type="BlockSrcs" Name="processing_system7_0"/>
 </GenRun>

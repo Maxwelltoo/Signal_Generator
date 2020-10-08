@@ -23,7 +23,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 module Signal_Generator(
-    input  CLK_50M,
+    //input  CLK_50M,
     input  RST_N,
     input  ENC_1_A, 
     input  ENC_1_B, 
@@ -34,6 +34,11 @@ module Signal_Generator(
     output DAC_SYNC,
     output DAC_SCLK,
     output DAC_DIN);
+
+wire  CLK_50M;
+processing_system7_0 system_clk(
+    .FCLK_CLK0(CLK_50M)
+);
 
 wire  wav_c, amp_c, f_inc, f_dec, p_inc, p_dec;
 // 改变波形，改变幅值，频率+，频率-，相位+，相位-

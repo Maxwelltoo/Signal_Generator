@@ -98,7 +98,7 @@ processing_system7_0_sc::processing_system7_0_sc(const sc_core::sc_module_name& 
   model_param_props.addLong("C_MIO_PRIMITIVE", "54");
   model_param_props.addLong("C_TRACE_INTERNAL_WIDTH", "2");
   model_param_props.addLong("C_USE_AXI_NONSECURE", "0");
-  model_param_props.addLong("C_USE_M_AXI_GP0", "1");
+  model_param_props.addLong("C_USE_M_AXI_GP0", "0");
   model_param_props.addLong("C_USE_M_AXI_GP1", "0");
   model_param_props.addLong("C_USE_S_AXI_GP0", "0");
   model_param_props.addLong("C_USE_S_AXI_GP1", "0");
@@ -117,10 +117,6 @@ processing_system7_0_sc::processing_system7_0_sc(const sc_core::sc_module_name& 
   model_param_props.addString("C_FCLK_CLK3_BUF", "FALSE");
   model_param_props.addString("C_PACKAGE_NAME", "clg484");
   mp_impl = new processing_system7_v5_5_tlm("inst", model_param_props);
-
-  // initialize sockets
-  M_AXI_GP0_rd_socket = mp_impl->M_AXI_GP0_rd_socket;
-  M_AXI_GP0_wr_socket = mp_impl->M_AXI_GP0_wr_socket;
 }
 
 processing_system7_0_sc::~processing_system7_0_sc()
