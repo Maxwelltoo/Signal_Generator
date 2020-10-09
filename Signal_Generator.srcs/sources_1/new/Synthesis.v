@@ -15,6 +15,8 @@
 // 
 // Revision:
 // Revision 0.01 - File Created
+// Revision 1.00 - 功能完成
+// Revision 1.10 - 正弦输出改为无符号表示
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
@@ -37,12 +39,17 @@ wire [15:0] acc_offset = acc + p_word;     // 相位偏移
 
 wire sin_valid;
 wire [31:0] dds_cos_sin;
+wire [11:0] sin_unsigned;
 dds_compiler_0 sin_wave (clk, dac_pre, {p_word,f_word}, sin_valid, dds_cos_sin); 
-wire [11:0] sin  = sin_valid ? dds_cos_sin[11:0] : 12'h7ff;
+assign sin_unsigned = {~dds_cos_sin[11] , dds_cos_sin[10:0]}; // 最高位符号位 1表负，0表正
+//负数补码转原码本应-1处理，由于对于12bit数据来说影响不大，为减少代码量，此处不作处理
+
+wire [11:0] sin  = sin_valid ? sin_unsigned[11:0] : 12'h7ff;
 wire [11:0] tria = acc_offset[15:4];
 wire [11:0] rect = acc_offset[15] ? 12'h000:12'hfff;
 wire [11:0] swat = acc_offset[15] ? acc_offset[14:3]:~acc_offset[14:3];
 
+// DAC预传输标志dac_pre上升沿到来时更新数据
 always @(posedge dac_pre or negedge rst) begin
     if (!rst) begin
         data  = 12'h000;
